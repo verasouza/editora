@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/authors")
+@RequestMapping("/authors")
 public class AuthorController {
 
     @Autowired
@@ -22,21 +22,26 @@ public class AuthorController {
         return ResponseEntity.ok(author);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<AuthorDTO>> getAll() {
         List<AuthorDTO> authors = authorService.findAll();
         return ResponseEntity.ok(authors);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AuthorDTO> update(@PathVariable Long id, @Valid @RequestBody AuthorDTO authorDTO) {
        authorService.update(id, authorDTO);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> getById(@PathVariable Long id) {
         AuthorDTO authorDTO = authorService.findOne(id);
         return ResponseEntity.ok(authorDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        authorService.deleteAuthor(id);
     }
 }

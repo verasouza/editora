@@ -1,6 +1,8 @@
 package com.vsouza.editora.controllers.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -78,6 +80,21 @@ public class HandleExceptions extends ResponseEntityExceptionHandler {
         Notification notification = Notification.builder()
                 .httpStatus(badRequest)
                 .message(ex.getMessage())
+                .time(ZonedDateTime.now(ZoneId.of("Z")))
+                .build();
+
+        return new ResponseEntity<>(notification, badRequest);
+    }
+
+
+    @ExceptionHandler(value = {InvalidDataAccessApiUsageException.class})
+    public ResponseEntity<Object> handleConstraintViolation(InvalidDataAccessApiUsageException ex, HttpHeaders headers,
+                                                            HttpStatus status,
+                                                            WebRequest request){
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        Notification notification = Notification.builder()
+                .httpStatus(badRequest)
+                .message("Invalid argument")
                 .time(ZonedDateTime.now(ZoneId.of("Z")))
                 .build();
 
