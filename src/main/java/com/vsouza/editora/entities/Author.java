@@ -24,8 +24,7 @@ public class Author {
     private String email;
 
 
-    @OneToMany(mappedBy = "author")
-
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST,mappedBy = "author")
     private Set<Book> books = new HashSet<>();
 
 
