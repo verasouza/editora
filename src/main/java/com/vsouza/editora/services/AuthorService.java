@@ -27,6 +27,7 @@ public class AuthorService {
     private AuthorMapper authorMapper;
 
     public AuthorDTO save(AuthorDTO authorRequest) {
+        emailAlreadyExists(authorRequest.getEmail());
         Author author = authorMapper.toAuthorEntity(authorRequest);
         authorRepository.save(author);
         return authorMapper.toAuthorDTO(author);
@@ -53,8 +54,10 @@ public class AuthorService {
 
 
         if(authorResponse != null) {
-            log.info("Author found? {} ", authorResponse);
             Author author = authorMapper.toAuthorEntity(authorRequest);
+            if(!author.getEmail().equals(authorRequest.getEmail())) {
+                emailAlreadyExists(authorRequest.getEmail());
+            }
             author.setId(authorResponse.getId());
             authorRepository.save(author);
         }
@@ -72,5 +75,12 @@ public class AuthorService {
             throw  new DatabaseException("Integrity violation");
         }
 
+    }
+
+    private void emailAlreadyExists(String email) {
+        if (authorRepository.existsByEmail(email)) {
+            log.info("Email already exists");
+            throw new DatabaseException("Email already exists");
+        }
     }
 }

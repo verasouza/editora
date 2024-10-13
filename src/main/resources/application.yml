@@ -9,9 +9,18 @@ spring:
   h2:
     console:
       enabled: true
+  mvc:
+    static-path-pattern: /swagger*
+
 
 server:
   port: 8085
 springdoc:
   api-docs:
-    path: api/documentation
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enable: true
+  show-actuator: true
+  packages-to-scan: com.vsouza.editora.controllers
+

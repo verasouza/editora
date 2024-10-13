@@ -1,6 +1,7 @@
 package com.vsouza.editora.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,11 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
+    @Email
     private String email;
 
 
-    @OneToMany(mappedBy = "author")
-
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST,mappedBy = "author")
     private Set<Book> books = new HashSet<>();
 
 
