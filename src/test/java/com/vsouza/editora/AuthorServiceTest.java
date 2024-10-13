@@ -2,6 +2,8 @@ package com.vsouza.editora;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vsouza.editora.dto.AuthorDTO;
+import com.vsouza.editora.entities.Author;
+import com.vsouza.editora.repositories.AuthorRepository;
 import com.vsouza.editora.services.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,9 @@ public class AuthorServiceTest {
 	@Mock
 	private AuthorService authorService;
 
+	@Autowired
+    private AuthorRepository authorRepository;
+
 	@Test
 	void contextLoads() {
 	}
@@ -43,6 +48,7 @@ public class AuthorServiceTest {
 	void setup() {
 		MockitoAnnotations.openMocks(this);
 		authorDTO = getAuthorDTO();
+		authorService.save(authorDTO);
 
 	}
 
@@ -96,11 +102,19 @@ public class AuthorServiceTest {
                 .andExpect(jsonPath("$.email").value("georginho@email.com"));
     }
 
+	@Test
+	void testDeleteAuthor() throws Exception {
+		Author author = authorRepository.findAll().get(0);
+		mockMvc.perform(delete("/" + author.getId())
+						.contentType("application/json")
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
 	AuthorDTO getAuthorDTO() {
 		AuthorDTO authorDTO = new AuthorDTO();
-		authorDTO.setId(1L);
-		authorDTO.setFirstName("George");
-		authorDTO.setLastName("RR Martin");
+		authorDTO.setId(14L);
+		authorDTO.setFullName("George RR Martin");
 		authorDTO.setEmail("george.martin@vsouza.com");
 		return authorDTO;
 	}
