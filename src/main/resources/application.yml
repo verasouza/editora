@@ -17,10 +17,18 @@ server:
   port: 8085
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    path: /api/documentation
   swagger-ui:
     path: /swagger-ui.html
     enable: true
   show-actuator: true
   packages-to-scan: com.vsouza.editora.controllers
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info, metrics
