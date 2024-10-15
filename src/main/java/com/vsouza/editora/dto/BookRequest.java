@@ -12,4 +12,6 @@ public class BookRequest {
     private int pages;
     private String genre;
     private Long authorId;
+    private int quantity;
+    private int year;
 }

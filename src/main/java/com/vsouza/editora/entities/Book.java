@@ -15,19 +15,30 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "Preencher o título do livro")
     private String title;
+
     private String publisher;
+
     @NotEmpty(message = "Preencher o ISBN do livro")
     private String isbn;
+
     @NotNull(message = "Indique o número de páginas")
     private int pages;
+
     private String genre;
+
+    @NotNull(message = "Indique quantas unidades existem")
+    private int quantity;
+
+    private int publishYear;
 
     @NotNull(message = "O livro deve ter um autor")
     @ManyToOne()
     @JoinColumn(name = "author_id")
     private Author author;
+
 
 
 

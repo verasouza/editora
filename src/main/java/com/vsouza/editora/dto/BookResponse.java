@@ -11,4 +11,6 @@ public class BookResponse {
     private int pages;
     private String genre;
     private String author;
+    private int quantity;
+    private int publishYear;
 }
